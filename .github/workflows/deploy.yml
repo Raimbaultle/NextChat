@@ -84,6 +84,7 @@ jobs:
           script: |
             set -ex
             source .profile
+            pwd
             mv /tmp/NextChat/release.zip release.zip            
             unzip -qq -o release.zip
             rm -r /tmp/NextChat release.zip
