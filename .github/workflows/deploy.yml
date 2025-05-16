@@ -3,6 +3,8 @@ name: Deploy
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
 
 permissions:
   contents: write
@@ -82,12 +84,8 @@ jobs:
           script: |
             set -ex
             source .profile
-            pm2 delete all
-            rm -fr NextChat
-            git clone https://github.com/ChatGPTNextWeb/NextChat
-            cd NextChat
             mv /tmp/NextChat/release.zip release.zip            
             unzip -qq -o release.zip
             rm -r /tmp/NextChat release.zip
-            PORT=37660 pm2 start server.js --name nextchat --cwd "./.next/standalone"
-            echo "Deployed successfully"
+            pm2 reload NextChat
+            echo "NextChat Updated successfully"
